@@ -3,10 +3,10 @@ package com.marcus.demo1;
 public class UnsafeBank {
 
     public static void main(String[] args) {
-        Account account = new Account(10000,"家庭");
+        Account account = new Account(10000, "家庭");
 
-        Thread my = new Thread(new Drawing(account,3000),"自己");
-        Thread wife = new Thread(new Drawing(account,8000),"wife");
+        Thread my = new Thread(new Drawing(account, 3000), "自己");
+        Thread wife = new Thread(new Drawing(account, 8000), "wife");
 
         my.start();
         wife.start();
@@ -42,7 +42,7 @@ class Account {
 
 // 银行：模拟取款
 
-class Drawing implements Runnable{
+class Drawing implements Runnable {
     Account account;
     int drawingMoney;
     int nowMoney;
@@ -57,8 +57,8 @@ class Drawing implements Runnable{
     public void run() {
 
         // 判断钱
-        if(this.account.getMoney() - this.drawingMoney<0){
-            System.out.println(Thread.currentThread().getName()+"钱不够了呀");
+        if (this.account.getMoney() - this.drawingMoney < 0) {
+            System.out.println(Thread.currentThread().getName() + "钱不够了呀");
             return;
         }
 
@@ -73,8 +73,8 @@ class Drawing implements Runnable{
 
         //你手里的钱
         this.nowMoney = this.nowMoney + this.drawingMoney;
-        System.out.println(Thread.currentThread().getName()+":"+this.nowMoney);
-        System.out.println(this.account.getName()+",账户余额还有"+this.account.getMoney()+"元。");
+        System.out.println(Thread.currentThread().getName() + ":" + this.nowMoney);
+        System.out.println(this.account.getName() + ",账户余额还有" + this.account.getMoney() + "元。");
     }
 
 }
