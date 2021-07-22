@@ -25,13 +25,14 @@ class BuyTicket implements Runnable {
         while (flag) {
             try {
                 buy();
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void buy() throws InterruptedException {
+    private synchronized void buy() throws InterruptedException {
 
         //判断是否有票
         if (ticketNum <= 0) {

@@ -43,7 +43,7 @@ class Account {
 // 银行：模拟取款
 
 class Drawing implements Runnable {
-    Account account;
+    final Account account;
     int drawingMoney;
     int nowMoney;
 
@@ -56,25 +56,29 @@ class Drawing implements Runnable {
     @Override
     public void run() {
 
-        // 判断钱
-        if (this.account.getMoney() - this.drawingMoney < 0) {
-            System.out.println(Thread.currentThread().getName() + "钱不够了呀");
-            return;
-        }
 
-        try {
-            Thread.currentThread().sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        synchronized(this.account){
+            // 判断钱
+            if (this.account.getMoney() - this.drawingMoney < 0) {
+                System.out.println(Thread.currentThread().getName() + "钱不够了呀");
+                return;
+            }
 
-        // 卡内余额
-        this.account.setMoney(this.account.getMoney() - this.drawingMoney);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-        //你手里的钱
-        this.nowMoney = this.nowMoney + this.drawingMoney;
-        System.out.println(Thread.currentThread().getName() + ":" + this.nowMoney);
-        System.out.println(this.account.getName() + ",账户余额还有" + this.account.getMoney() + "元。");
+            // 卡内余额
+            this.account.setMoney(this.account.getMoney() - this.drawingMoney);
+
+            //你手里的钱
+            this.nowMoney = this.nowMoney + this.drawingMoney;
+            System.out.println(Thread.currentThread().getName() + ":" + this.nowMoney);
+            System.out.println(this.account.getName() + ",账户余额还有" + this.account.getMoney() + "元。");
+        };
+
     }
 
 }
